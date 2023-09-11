@@ -1,21 +1,17 @@
 import json
 
 
-
 def compare_json_dicts(dict1, dict2):
     diff = {}
     keys1 = set(dict1.keys())
     keys2 = set(dict2.keys())
 
-    # Find keys that are only in dict1
     for key in keys1 - keys2:
         diff[key] = {'-': dict1[key]}
 
-    # Find keys that are only in dict2
     for key in keys2 - keys1:
         diff[key] = {'+': dict2[key]}
 
-    # Find keys that are in both dicts but with different values
     for key in keys1 & keys2:
         if dict1[key] != dict2[key]:
             diff[key] = {'-': dict1[key], '+': dict2[key]}

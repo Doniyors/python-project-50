@@ -1,0 +1,7 @@
+"scripts": {
+  "test": "make lint",
+  "cc-test-reporter": "YOUR_REPORTER_ID=63d9db04b5e306ef8781e2a1522c7f774f1ee18a5a6710eb9051badb856cc65b ./cc-test-reporter format-coverage -t lcov coverage/lcov.info",
+  "cc-test-reporter-upload": "YOUR_REPORTER_ID=63d9db04b5e306ef8781e2a1522c7f774f1ee18a5a6710eb9051badb856cc65b ./cc-test-reporter upload-coverage",
+  ...
+}
+

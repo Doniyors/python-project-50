@@ -6,3 +6,8 @@ test-coverage:
 
 pytest:
 	pytest
+
+check: selfcheck test lint
+
+install:
+	poetry install

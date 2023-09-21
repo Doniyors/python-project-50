@@ -14,6 +14,7 @@ def compare_json_dicts(dict1, dict2):
 
     return diff
 
+
 def get_added_removed_keys(dict1, dict2):
     diff = {}
     for key in dict1.keys() - dict2.keys():
@@ -21,6 +22,7 @@ def get_added_removed_keys(dict1, dict2):
     for key in dict2.keys() - dict1.keys():
         diff[key] = {"+": dict2[key]}
     return diff
+
 
 def get_modified_keys(dict1, dict2):
     diff = {}

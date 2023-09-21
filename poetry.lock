@@ -32,12 +32,33 @@ python-versions = ">=3.7"
 test = ["pytest (>=6)"]
 
 [[package]]
+name = "flake8"
+version = "6.1.0"
+description = "the modular source code checker: pep8 pyflakes and co"
+category = "dev"
+optional = false
+python-versions = ">=3.8.1"
+
+[package.dependencies]
+mccabe = ">=0.7.0,<0.8.0"
+pycodestyle = ">=2.11.0,<2.12.0"
+pyflakes = ">=3.1.0,<3.2.0"
+
+[[package]]
 name = "iniconfig"
 version = "2.0.0"
 description = "brain-dead simple config-ini parsing"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
+
+[[package]]
+name = "mccabe"
+version = "0.7.0"
+description = "McCabe checker, plugin for flake8"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
 
 [[package]]
 name = "packaging"
@@ -58,6 +79,22 @@ python-versions = ">=3.8"
 [package.extras]
 dev = ["pre-commit", "tox"]
 testing = ["pytest", "pytest-benchmark"]
+
+[[package]]
+name = "pycodestyle"
+version = "2.11.0"
+description = "Python style guide checker"
+category = "dev"
+optional = false
+python-versions = ">=3.8"
+
+[[package]]
+name = "pyflakes"
+version = "3.1.0"
+description = "passive checker of Python programs"
+category = "dev"
+optional = false
+python-versions = ">=3.8"
 
 [[package]]
 name = "pytest"
@@ -104,15 +141,19 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "3f0a6dbc2171551135f30972439cbf59f1c9acc5eb19530eaac727e3cba28f59"
+content-hash = "a7c96c8494370c69ed9a0b2478edd8ce064c0311924fb0c889d9623c6262d654"
 
 [metadata.files]
 colorama = []
 coverage = []
 exceptiongroup = []
+flake8 = []
 iniconfig = []
+mccabe = []
 packaging = []
 pluggy = []
+pycodestyle = []
+pyflakes = []
 pytest = []
 pytest-cov = []
 tomli = []

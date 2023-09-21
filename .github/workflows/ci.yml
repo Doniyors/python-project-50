@@ -1,31 +1,32 @@
-name: CI/CD Workflow
+name: Python CI
 
 on:
-  push:
-    branches:
-      - main
+  - push
+  - pull_request
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8]
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Set up Python
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
-          python-version: 3.x
+          python-version: ${{ matrix.python-version }}
       - name: Install dependencies
-        run: pip install -r requirements.txt
-      - name: Run tests
-        run: make pytest
-      - name: check Flake8
-        run: make lint
-      - name: Test and publish code coverage
-        uses: paambaati/codclimate-action@v3.2.0
-        if: github.ref_name == 'main'
+        run: |
+          pip install poetry
+          poetry install
+      - name: Run linter and pytest
+        run: |
+          make lint
+          make test
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v2.7.5
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           coverageCommand: make test-coverage
-          debug: True

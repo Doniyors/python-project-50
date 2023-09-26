@@ -6,14 +6,11 @@ def compare_json_dicts(dict1, dict2):
     keys1 = set(dict1.keys())
     keys2 = set(dict2.keys())
 
-    if keys1 != keys2:
-        return False
 
     diff.update(get_added_removed_keys(dict1, dict2))
     diff.update(get_modified_keys(dict1, dict2))
 
     return diff
-
 
 def get_added_removed_keys(dict1, dict2):
     diff = {}
@@ -23,37 +20,41 @@ def get_added_removed_keys(dict1, dict2):
         diff[key] = {"+": dict2[key]}
     return diff
 
-
 def get_modified_keys(dict1, dict2):
     diff = {}
     for key in dict1.keys() & dict2.keys():
-        if dict1[key] != dict2[key]:
+        if dict1[key] != dict2[key] :
             diff[key] = {"-": dict1[key], "+": dict2[key]}
         else:
             diff[key] = {"=": dict1[key]}
     return diff
 
 
-json1 = {"name": "Alice", "age": 30, "city": "New York"}
-json2 = {"name": "Bob", "age": 25, "city": "Los Angeles"}
-
-
 def format_diff(diff):
     lines = []
     for key, changes in sorted(diff.items()):
-        line = []
         if "-" in changes:
-            line.append(f"- {key}: {changes['-']}")
+            lines.append(f"- {key}: {changes['-']}")
         if "+" in changes:
-            line.append(f"+ {key}: {changes['+']}")
-        if "=" in changes:
-            line.append(f"  {key}: {changes['=']}")
-        lines.append("  ".join(line))
+            lines.append(f"+ {key}: {changes['+']}")
+        if '=' in changes:
+            lines.append(f"  {key}: {changes['=']}")
     return "{\n" + "\n".join(lines) + "\n}"
 
 
-e = compare_json_dicts(json1, json2)
-print(e)
+file1 = {
+    "host": "hexlet.io",
+    "timeout": 50,
+    "proxy": "123.234.53.22",
+    "follow": False
+  }
+file2 = {
+    "timeout": 20,
+    "verbose": True,
+    "host": "hexlet.io"
+  }
+print(compare_json_dicts(file1, file2))
+print(format_diff(compare_json_dicts(file1, file2)))
 
 
 def generate_diff(file1_path, file2_path):

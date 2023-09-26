@@ -25,3 +25,15 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+def some_foo(x):
+     for i in x:
+        if i == 0:
+            x[-1] = i
+
+
+
+e = [0, 1, 0, 2, 0, 4]
+print(some_foo(e))

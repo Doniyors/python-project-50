@@ -1,37 +1,74 @@
-from gendiff.json_diff import compare_json_dicts
+from gendiff import generate_diff
+import pytest
+
+from tests import get_path
 
 
-def test_equal_jsons():
-    json1 = {"name": "Alice", "age": 30, "city": "New York"}
-    json2 = {"name": "Alice", "age": 30, "city": "New York"}
-    result = compare_json_dicts(json1, json2)
-    expected_diff = {
-        "age": {"=": 30},
-        "city": {"=": "New York"},
-        "name": {"=": "Alice"},
-    }
-    assert result == expected_diff
-
-
-def test_unequal_jsons():
-    json1 = {"name": "Alice", "age": 30, "city": "New York"}
-    json2 = {"name": "Bob", "age": 25, "city": "Los Angeles"}
-    result = compare_json_dicts(json1, json2)
-    expected_diff = {
-        "city": {"-": "New York", "+": "Los Angeles"},
-        "name": {"-": "Alice", "+": "Bob"},
-        "age": {"-": 30, "+": 25},
-    }
-    assert result == expected_diff
-
-
-def test_partial_match():
-    json1 = {"name": "Alice", "age": 30, "city": "New York"}
-    json2 = {"name": "Alice", "age": 30, "city": "Душанбе"}
-    result = compare_json_dicts(json1, json2)
-    expected_diff = {
-        "city": {"-": "New York", "+": "Душанбе"},
-        "name": {"=": "Alice"},
-        "age": {"=": 30},
-    }
-    assert result == expected_diff
+@pytest.mark.parametrize(
+    "test_input1,test_input2, formater,  expected",
+    [
+        pytest.param(
+            'file1.json',
+            'file2.json',
+            'stylish',
+            'correct_result.txt',
+            id="flat_json_file"
+        ),
+        pytest.param(
+            'file1.yaml',
+            'file2.yaml',
+            'stylish',
+            'correct_result.txt',
+            id="flat_yaml_file"
+        ),
+        pytest.param(
+            'file1.yaml',
+            'file2.json',
+            'stylish',
+            'correct_result.txt',
+            id="flat_mix_file"
+        ),
+        pytest.param(
+            'empty_file.json',
+            'empty_file.json',
+            'stylish',
+            'correct_result_empty.txt',
+            id="empty_file"
+        ),
+        pytest.param(
+            'file1_tree.json',
+            'file2_tree.json',
+            'stylish',
+            'correct_result_tree.txt',
+            id="tree_json_file"
+        ),
+        pytest.param(
+            'file1_tree.yaml',
+            'file2_tree.yaml',
+            'stylish',
+            'correct_result_tree.txt',
+            id="tree_yaml_file"
+        ),
+        pytest.param(
+            'file1_tree.yaml',
+            'file2_tree.yaml',
+            'plain',
+            'correct_result_tree_plain.txt',
+            id="tree_plain"
+        ),
+        pytest.param(
+            'file1_tree.json',
+            'file2_tree.json',
+            'json',
+            'correct_result_tree_json.txt',
+            id="tree_json"
+        ),
+    ],
+)
+def test_generare_diff(test_input1, test_input2, formater, expected):
+    expected_path = get_path(expected)
+    with open(expected_path, 'r') as file:
+        result_data = file.read()
+        test_path1 = get_path(test_input1)
+        test_path2 = get_path(test_input2)
+        assert generate_diff(test_path1, test_path2, formater) == result_data
